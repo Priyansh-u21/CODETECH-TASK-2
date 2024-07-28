@@ -1,0 +1,164 @@
+
+//*QUIZ GAME*//
+
+
+
+/*Header file*/
+
+#include <windows.h>    //  header file for gotoxy
+COORD coord= {0,0}; // this is global variable
+void gotoxy(int x,int y)
+{
+    coord.X=x;
+    coord.Y=y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+
+
+/*Main code*/
+
+
+#include <stdio.h>
+#include <conio.h>
+#include <ctype.h>
+#include "gotoxy.h"
+
+/* Define variable*/
+#define ESC 27
+
+
+/* Function declaration*/
+void mainMenu();
+void gamePlay();
+
+int main() {
+    mainMenu();
+    return 0;
+}
+
+/* Function definition*/
+void mainMenu(){
+
+    char choice;
+
+    system("cls");
+    gotoxy(30,8);
+    printf("WELCOME TO I.Q TEST PROGRAM");
+    gotoxy(30,10);
+    printf("----------------------------");
+    gotoxy(30,12);
+    printf("Enter S to start game");
+    gotoxy(30,14);
+    printf("Enter Q or ESc to quit");
+    gotoxy(30,16);
+    printf("----------------------------");
+
+    choice=toupper(getch());
+
+    switch(choice){
+    case 'S':
+        gamePlay();
+        break;
+    case 'Q':
+        exit(0);
+    case ESC:
+        exit(0);
+    default:
+        gotoxy(30,18);
+        printf("Wrong Entry!!");
+        gotoxy(30,20);
+        printf("Press any key and re-enter correct option");+
+        if(getch())
+            mainMenu();
+    }
+
+}
+
+void gamePlay(){
+    system("cls");
+    char question[10][250];
+    strcpy(question[0], "What is chemical symbol for the element Gold");
+    strcpy(question[1], "Who was the first President of United States");
+    strcpy(question[2], "Which is the longest river in world");
+    strcpy(question[3], "Who wrote the first novel 1984");
+    strcpy(question[4], "In which sport would you perform a slum dunk");
+    strcpy(question[5], "Which movie won the Academy Award for the Best picture in 2021");
+    strcpy(question[6], "Who is know as the king of Pop");
+    strcpy(question[7], "Who co-founded Apple Inc along with Steve Jobs");
+    strcpy(question[8], "What is the value of (pi) to the decimal places");
+    strcpy(question[9], "Which planet is know as the Red planet");
+
+    char option[10][4][50] = {
+        {"Go","Au","Ag","Gl"},
+        {"Abraham Linclon"," George Washington","Thomas Jefferson","John Adams"},
+        {"Amazon","Nile","Mississippi","yantze"},
+        {"George Orwell","Aldous Huxely","J.k.k Tolkien","Ernest Hemingway"},
+        {"Tenis","Basketball","Golf","swimming"},
+        {"Parasite","The Shape of Water","Nomadland","The Godfather"},
+        {"Michael Jackson","Elvis Presley","Madonna","Prince"},
+        {"Bill Gates","Steve Wozniak","Mark Zuckerberg","Larry Page"},
+        {"3.14","3.16","3.18","3.12"},
+        {"Jupiter","Mars","Saturn","Venus"}
+
+
+
+
+    };
+
+    char answer[10]={'b','b','b','a','b','c','a','b','a','b'};
+    char letter[4]={'a','b','c','d'};
+    char ans;
+    int score=0;
+
+    for(int i=0;i<10;i++){
+            system("cls");
+            gotoxy(20,8);
+            printf("%s\n",question[i]);
+            for(int j=0;j<4;j++){
+                if(j==0 || j==2){
+                    gotoxy(20,10 + j);
+                    printf("%c) %s\n",letter[j],option[i][j]);
+                } else {
+                    gotoxy(55,9 + j);
+                    printf("%c) %s\n",letter[j],option[i][j]);
+                }
+            }
+
+            do{
+                gotoxy(22,15);
+                printf("Please Choose Answer using key a or b or c or d: ");
+                ans=tolower(getch());
+                if(ans=='a'||ans=='b'||ans=='c'||ans=='d')
+                    break;
+            }while(1==1);
+
+            if(ans==answer[i]){
+                gotoxy(22,15);
+                printf("Correct Answer!!     PRESS ANY KEY TO Continue....");
+                score++;
+                getch();
+            }else{
+                gotoxy(22,15);
+                printf("Wrong Answer!!     PRESS ANY KEY TO Continue....");
+                getch();
+            }
+
+        }
+        system("cls");
+        gotoxy(22,8);
+        printf("You have score %d Out of 10.",score);
+        giveFeedback(score);
+        getch();
+
+        mainMenu();
+}
+void giveFeedback(int score) {
+    gotoxy(22,10);
+    if (score >= 8) {
+        printf("EXCELLENT");
+    } else if (score >= 5) {
+        printf("GOOD");
+    } else {
+        printf("BAD");
+    }
+}
